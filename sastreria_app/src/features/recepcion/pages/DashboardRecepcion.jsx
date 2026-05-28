@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import styles from "./DashboardRecepcion.module.css";
 
-const CLIENTES = ["Ana García", "María López", "Sofía Martínez", "Laura Pérez"];
-const SASTRES  = ["Carlos Ruiz", "Pedro Gómez", "Luis Torres"];
-const PRENDAS  = ["Vestido de Noche", "Traje Clásico", "Vestido Cóctel", "Abrigo a Medida", "Camisa Bespoke", "Conjunto Sastre"];
+const API = "http://localhost:5018/api";
 
 export const DashboardRecepcion = () => {
   const { usuario } = useAuth();
+
+  const [clientes, setClientes] = useState([]);
+  const [prendas, setPrendas] = useState([]);
+  const [sastres, setSastres] = useState([]);
 
   const [medidas, setMedidas] = useState({
     busto: "", cintura: "", cadera: "",
@@ -15,7 +17,7 @@ export const DashboardRecepcion = () => {
   });
 
   const [pedido, setPedido] = useState({
-    cliente: "", prenda: "", sastre: "", fecha: "",
+    clienteId: "", prendaId: "", sastreId: "", fecha: "",
   });
 
   const [clienteNuevo, setClienteNuevo] = useState({
@@ -24,36 +26,124 @@ export const DashboardRecepcion = () => {
 
   const [tab, setTab] = useState("registro");
   const [guardado, setGuardado] = useState("");
+  const [cargando, setCargando] = useState(false);
 
-  const handleGuardarCliente = (e) => {
-    e.preventDefault();
-    setGuardado("cliente");
-    setTimeout(() => setGuardado(""), 3000);
-    setClienteNuevo({ nombre: "", telefono: "", email: "" });
-    setMedidas({ busto: "", cintura: "", cadera: "", largoBrazo: "", hombros: "", largoTotal: "" });
+  useEffect(() => {
+    cargarDatos();
+  }, []);
+
+  const cargarDatos = async () => {
+    try {
+      const [resClientes, resPrendas, resUsuarios] = await Promise.all([
+        fetch(`${API}/Clientes`),
+        fetch(`${API}/PrendasCatalogo`),
+        fetch(`${API}/Usuarios`),
+      ]);
+      const clientesData = await resClientes.json();
+      const prendasData = await resPrendas.json();
+      const usuariosData = await resUsuarios.json();
+      setClientes(clientesData);
+      setPrendas(prendasData);
+      setSastres(usuariosData.filter(u => u.rol === 2 || u.rol === "Sastre"));
+    } catch (error) {
+      console.error("Error cargando datos:", error);
+    }
   };
 
-  const handleGuardarPedido = (e) => {
+  const handleGuardarCliente = async (e) => {
     e.preventDefault();
-    setGuardado("pedido");
-    setTimeout(() => setGuardado(""), 3000);
-    setPedido({ cliente: "", prenda: "", sastre: "", fecha: "" });
+    setCargando(true);
+    try {
+      const resCliente = await fetch(`${API}/Clientes`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nombre: clienteNuevo.nombre,
+          telefono: clienteNuevo.telefono,
+          correo: clienteNuevo.email,
+          direccion: "",
+        }),
+      });
+
+      if (!resCliente.ok) throw new Error("Error al guardar cliente");
+      const clienteCreado = await resCliente.json();
+
+      const resMedidas = await fetch(`${API}/Medidas`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          clienteId: clienteCreado.id,
+          pecho: Number(medidas.busto) || null,
+          cintura: Number(medidas.cintura) || null,
+          cadera: Number(medidas.cadera) || null,
+          largoBrazo: Number(medidas.largoBrazo) || null,
+          hombros: Number(medidas.hombros) || null,
+          largoTotal: Number(medidas.largoTotal) || null,
+          fechaRegistro: new Date().toISOString(),
+        }),
+      });
+
+      if (!resMedidas.ok) throw new Error("Error al guardar medidas");
+
+      setGuardado("cliente");
+      setTimeout(() => setGuardado(""), 3000);
+      setClienteNuevo({ nombre: "", telefono: "", email: "" });
+      setMedidas({ busto: "", cintura: "", cadera: "", largoBrazo: "", hombros: "", largoTotal: "" });
+      await cargarDatos();
+    } catch (error) {
+      console.error(error);
+      alert("Error: " + error.message);
+    } finally {
+      setCargando(false);
+    }
+  };
+
+  const handleGuardarPedido = async (e) => {
+    e.preventDefault();
+    setCargando(true);
+    try {
+      const res = await fetch(`${API}/Pedidos`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          clienteId: Number(pedido.clienteId),
+          prendaCatalogoId: Number(pedido.prendaId),
+          precioUnitario: 0,
+          costoTotal: 0,
+          saldoPendiente: 0,
+          estado: "Pendiente",
+          fechaPedido: new Date().toISOString(),
+          fechaEntrega: pedido.fecha ? new Date(pedido.fecha).toISOString() : null,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Error al crear pedido");
+
+      setGuardado("pedido");
+      setTimeout(() => setGuardado(""), 3000);
+      setPedido({ clienteId: "", prendaId: "", sastreId: "", fecha: "" });
+    } catch (error) {
+      console.error(error);
+      alert("Error: " + error.message);
+    } finally {
+      setCargando(false);
+    }
   };
 
   return (
     <div className={styles.page}>
 
-      {/* HEADER */}
       <section className={styles.header}>
         <div className={styles.headerPattern} />
         <div className={styles.headerContent}>
           <p className={styles.headerEy}>Panel de trabajo</p>
-          <h1 className={styles.headerH}>Workspace de Recepción</h1>
-          <p className={styles.headerSub}>{usuario?.nombre} — {new Date().toLocaleDateString("es-CO", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</p>
+          <h1 className={styles.headerH}>Workspace de Recepcion</h1>
+          <p className={styles.headerSub}>
+            {usuario?.nombre} — {new Date().toLocaleDateString("es-CO", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
+          </p>
         </div>
       </section>
 
-      {/* TABS */}
       <div className={styles.tabs}>
         <button className={`${styles.tab} ${tab === "registro" ? styles.tabActive : ""}`}
           onClick={() => setTab("registro")}>
@@ -65,17 +155,15 @@ export const DashboardRecepcion = () => {
         </button>
       </div>
 
-      {/* CONFIRMACIONES */}
       {guardado === "cliente" && (
-        <div className={styles.confirmacion}>✓ Cliente y medidas registrados correctamente</div>
+        <div className={styles.confirmacion}>Cliente y medidas registrados correctamente</div>
       )}
       {guardado === "pedido" && (
-        <div className={styles.confirmacion}>✓ Pedido creado y asignado al sastre</div>
+        <div className={styles.confirmacion}>Pedido creado correctamente</div>
       )}
 
       <div className={styles.workspace}>
 
-        {/* TAB REGISTRO */}
         {tab === "registro" && (
           <form className={styles.panel} onSubmit={handleGuardarCliente}>
             <div className={styles.panelHeader}>
@@ -92,14 +180,14 @@ export const DashboardRecepcion = () => {
                   required />
               </div>
               <div className={styles.fieldGroup}>
-                <label className={styles.label}>Teléfono</label>
+                <label className={styles.label}>Telefono</label>
                 <input className={styles.input} type="tel" placeholder="300 000 0000"
                   value={clienteNuevo.telefono}
                   onChange={(e) => setClienteNuevo({ ...clienteNuevo, telefono: e.target.value })}
                   required />
               </div>
               <div className={`${styles.fieldGroup} ${styles.fullWidth}`}>
-                <label className={styles.label}>Correo electrónico</label>
+                <label className={styles.label}>Correo electronico</label>
                 <input className={styles.input} type="email" placeholder="correo@ejemplo.com"
                   value={clienteNuevo.email}
                   onChange={(e) => setClienteNuevo({ ...clienteNuevo, email: e.target.value })} />
@@ -134,13 +222,12 @@ export const DashboardRecepcion = () => {
               ))}
             </div>
 
-            <button type="submit" className={styles.btnPrimary}>
-              Guardar Cliente y Medidas
+            <button type="submit" className={styles.btnPrimary} disabled={cargando}>
+              {cargando ? "Guardando..." : "Guardar Cliente y Medidas"}
             </button>
           </form>
         )}
 
-        {/* TAB PEDIDO */}
         {tab === "pedido" && (
           <form className={styles.panel} onSubmit={handleGuardarPedido}>
             <div className={styles.panelHeader}>
@@ -152,33 +239,35 @@ export const DashboardRecepcion = () => {
               <div className={`${styles.fieldGroup} ${styles.fullWidth}`}>
                 <label className={styles.label}>Cliente</label>
                 <select className={styles.select}
-                  value={pedido.cliente}
-                  onChange={(e) => setPedido({ ...pedido, cliente: e.target.value })}
+                  value={pedido.clienteId}
+                  onChange={(e) => setPedido({ ...pedido, clienteId: e.target.value })}
                   required>
                   <option value="">Seleccionar cliente</option>
-                  {CLIENTES.map((c) => <option key={c}>{c}</option>)}
+                  {clientes.map((c) => (
+                    <option key={c.id} value={c.id}>{c.nombre}</option>
+                  ))}
                 </select>
               </div>
 
               <div className={`${styles.fieldGroup} ${styles.fullWidth}`}>
                 <label className={styles.label}>Tipo de prenda</label>
                 <select className={styles.select}
-                  value={pedido.prenda}
-                  onChange={(e) => setPedido({ ...pedido, prenda: e.target.value })}
+                  value={pedido.prendaId}
+                  onChange={(e) => setPedido({ ...pedido, prendaId: e.target.value })}
                   required>
                   <option value="">Seleccionar prenda</option>
-                  {PRENDAS.map((p) => <option key={p}>{p}</option>)}
-                </select>
-              </div>
-
-              <div className={styles.fieldGroup}>
-                <label className={styles.label}>Asignar sastre</label>
-                <select className={styles.select}
-                  value={pedido.sastre}
-                  onChange={(e) => setPedido({ ...pedido, sastre: e.target.value })}
-                  required>
-                  <option value="">Seleccionar sastre</option>
-                  {SASTRES.map((s) => <option key={s}>{s}</option>)}
+                  {prendas.length > 0 ? (
+                    prendas.map((p) => (
+                      <option key={p.id} value={p.id}>{p.nombre}</option>
+                    ))
+                  ) : (
+                    <>
+                      <option value="1">Vestido de Noche</option>
+                      <option value="2">Traje Clasico</option>
+                      <option value="3">Vestido Coctel</option>
+                      <option value="4">Abrigo a Medida</option>
+                    </>
+                  )}
                 </select>
               </div>
 
@@ -191,8 +280,8 @@ export const DashboardRecepcion = () => {
               </div>
             </div>
 
-            <button type="submit" className={styles.btnPrimary}>
-              Crear Pedido
+            <button type="submit" className={styles.btnPrimary} disabled={cargando}>
+              {cargando ? "Creando..." : "Crear Pedido"}
             </button>
           </form>
         )}

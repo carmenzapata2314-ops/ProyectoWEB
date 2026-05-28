@@ -55,6 +55,20 @@ namespace SastreriaAPI.Controllers
             return pedido;
         }
 
+        // GET pedidos por cliente
+        [HttpGet("cliente/{clienteId}")]
+        public async Task<ActionResult<IEnumerable<Pedido>>> GetPedidosPorCliente(int clienteId)
+        {
+            var pedidos = await _context.Pedidos
+                .Include(p => p.Cliente)
+                .Include(p => p.PrendaCatalogo)
+                .Include(p => p.MedidaPrenda)
+                .Where(p => p.ClienteId == clienteId)
+                .ToListAsync();
+
+            return Ok(pedidos);
+        }
+
         // POST
         [HttpPost]
         public async Task<ActionResult<Pedido>> PostPedido(PedidoCreateDto dto)

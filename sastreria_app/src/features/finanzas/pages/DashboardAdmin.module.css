@@ -1,140 +1,331 @@
-/* src/features/finanzas/pages/DashboardAdmin.module.css */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Raleway:wght@300;400;500;600;700&display=swap');
 
-.header {
-  margin-bottom: 3rem;
+:root {
+  --ng: #1a1a1a;
+  --cr: #f7f2ea;
+  --be: #d9cfc0;
+  --ac: #b89b72;
+  --borde: #e8e0d4;
+  --wh: #ffffff;
+  --verde: #2d6a4f;
+  --verde-bg: #d8f3dc;
+  --rojo: #9b2226;
+  --rojo-bg: #fde8e8;
+  --gris: #747879;
 }
 
-.title {
-  font-family: 'Noto Serif', serif;
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #181f21;
+.page {
+  font-family: 'Raleway', sans-serif;
+  background: var(--cr);
+  min-height: 100vh;
+  padding: 2.5rem;
+  color: var(--ng);
 }
 
-/* ── KPIs ── */
-.metricsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 3rem;
-}
-
-.metricCard {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+/* CARGANDO */
+.cargando {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  border-left: 5px solid;
-}
-
-.metricCard.ingreso { border-color: #2ecc71; } /* Verde */
-.metricCard.egreso { border-color: #e74c3c; } /* Rojo */
-.metricCard.saldo { border-color: #c9a84c; background: #181f21; color: white;} /* Dorado/Oscuro */
-
-.iconBox {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
   justify-content: center;
-  align-items: center;
-  font-size: 1.5rem;
-  background: #f5f4e8;
-  color: #181f21;
+  height: 100vh;
+  background: var(--cr);
+}
+.cargandoText {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  color: var(--gris);
+  letter-spacing: 2px;
 }
 
-.metricValue {
-  font-family: 'Noto Serif', serif;
-  font-size: 2rem;
+/* HEADER */
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--borde);
+}
+.headerEy {
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--ac);
   font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+.headerTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--ng);
   margin: 0;
+}
+.headerDate {
+  font-size: 11px;
+  color: var(--gris);
+  letter-spacing: 1px;
+  text-transform: capitalize;
+}
+
+/* METRICAS */
+.metricas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+.metCard {
+  background: var(--wh);
+  border: 1px solid var(--borde);
+  padding: 1.8rem;
+  position: relative;
+  overflow: hidden;
+}
+.metCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+}
+.metIngreso::before { background: var(--verde); }
+.metEgreso::before  { background: var(--rojo); }
+.metSaldo::before   { background: var(--ac); }
+
+.metTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.metLabel {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gris);
+  font-weight: 700;
+}
+.metIcon {
+  font-size: 1.2rem;
+  color: var(--borde);
+}
+.metIngreso .metIcon { color: var(--verde); }
+.metEgreso .metIcon  { color: var(--rojo); }
+.metSaldo .metIcon   { color: var(--ac); }
+
+.metValor {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--ng);
+  margin: 0 0 0.4rem;
   line-height: 1;
 }
-
-.metricLabel {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: #747879;
-  font-weight: 800;
+.metValorSaldo { color: var(--ac); }
+.metSub {
+  font-size: 10px;
+  color: var(--gris);
+  margin: 0;
 }
 
-.saldo .metricLabel { color: rgba(255,255,255,0.7); }
-
-/* ── TABLAS DE DATOS ── */
-.tablesGrid {
+/* TABLAS */
+.tablas {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  margin-bottom: 3rem;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
 }
-
-@media (max-width: 992px) {
-  .tablesGrid { grid-template-columns: 1fr; }
+.tablaBox {
+  background: var(--wh);
+  border: 1px solid var(--borde);
+  padding: 1.8rem;
 }
-
-.tableContainer {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-}
-
-.tableHeader {
+.tablaHead {
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
-  align-items: center;
   margin-bottom: 1.5rem;
-  border-bottom: 2px solid #f5f4e8;
   padding-bottom: 1rem;
+  border-bottom: 1px solid var(--borde);
 }
-
-.btnAction {
-  padding: 8px 16px;
-  font-size: 11px;
-  font-weight: 700;
+.tablaEy {
+  font-size: 9px;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  border-radius: 6px;
-  cursor: pointer;
-  border: none;
-  transition: opacity 0.2s;
+  color: var(--ac);
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+.tablaTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ng);
+  margin: 0;
 }
 
-.btnIngreso { background: #e9f7ef; color: #27ae60; }
-.btnEgreso { background: #fdf5f6; color: #e74c3c; }
-.btnAction:hover { opacity: 0.8; }
-
-.atelierTable {
+.tabla {
   width: 100%;
   border-collapse: collapse;
 }
-
-.atelierTable th {
+.tabla th {
   text-align: left;
-  font-size: 10px;
+  font-size: 9px;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #747879;
-  padding-bottom: 1rem;
+  letter-spacing: 2px;
+  color: var(--gris);
+  font-weight: 700;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--borde);
+}
+.tabla td {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--borde);
+  font-size: 13px;
+  font-weight: 500;
+}
+.tabla tr:last-child td { border-bottom: none; }
+
+.tdPedido { color: var(--ac); font-weight: 700; }
+.tdIngreso { color: var(--verde); font-weight: 700; }
+.tdEgreso  { color: var(--rojo); font-weight: 700; }
+.tdGris    { color: var(--gris); }
+.tdNombre  { font-weight: 600; }
+.tdVacio   { text-align: center; padding: 2rem 0; color: var(--gris); font-size: 12px; }
+
+/* BOTONES */
+.btn {
+  padding: 8px 18px;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-family: 'Raleway', sans-serif;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+.btn:hover { opacity: 0.8; }
+.btnVerde   { background: var(--verde-bg); color: var(--verde); }
+.btnRojo    { background: var(--rojo-bg); color: var(--rojo); }
+.btnDark    { background: var(--ng); color: var(--wh); }
+.btnOutline { background: transparent; color: var(--ng); border: 1px solid var(--ng); }
+
+/* STOCK ALERT */
+.stockAlert {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--rojo);
+  font-weight: 700;
+  background: var(--rojo-bg);
+  padding: 6px 12px;
+  border: 1px solid var(--rojo);
 }
 
-.atelierTable td {
-  padding: 1rem 0;
-  border-bottom: 1px solid #f5f4e8;
-  font-weight: 600;
-  font-size: 14px;
+/* INVENTARIO */
+.inventarioBox {
+  background: var(--wh);
+  border: 1px solid var(--borde);
+  padding: 1.8rem;
+  margin-bottom: 2.5rem;
 }
 
-/* ── ZONA DE REPORTES ── */
-.reportsBox {
-  background: #f5f4e8;
-  padding: 2rem;
-  border-radius: 12px;
+.stockControl {
   display: flex;
-  gap: 1rem;
   align-items: center;
+  gap: 8px;
+}
+.stockBtn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--borde);
+  background: transparent;
+  color: var(--ng);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  transition: background 0.2s;
+}
+.stockBtn:hover { background: var(--ng); color: var(--wh); }
+.stockNum {
+  font-weight: 700;
+  font-size: 14px;
+  min-width: 24px;
+  text-align: center;
+}
+
+.badgeBajo {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+  background: var(--rojo-bg);
+  color: var(--rojo);
+  padding: 4px 10px;
+  border: 1px solid var(--rojo);
+}
+.badgeOk {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+  background: var(--verde-bg);
+  color: var(--verde);
+  padding: 4px 10px;
+  border: 1px solid var(--verde);
+}
+
+/* EXPORTAR */
+.exportBox {
+  background: var(--ng);
+  padding: 1.8rem;
+}
+.exportTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  color: var(--cr);
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
+.exportControls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   flex-wrap: wrap;
 }
+.dateInput {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(247, 242, 234, 0.3);
+  color: var(--cr);
+  padding: 6px 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 12px;
+  outline: none;
+}
+.exportHasta {
+  font-size: 10px;
+  color: var(--cr);
+  opacity: 0.4;
+  letter-spacing: 1px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .metricas { grid-template-columns: 1fr; }
+  .tablas   { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .page { padding: 1.5rem; }
+  .headerTitle { font-size: 1.6rem; }
+  .header { flex-direction: column; gap: 0.5rem; align-items: flex-start; }
+  .exportControls { flex-direction: column; align-items: flex-start; }
+} 

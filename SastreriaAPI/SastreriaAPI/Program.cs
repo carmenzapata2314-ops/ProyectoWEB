@@ -5,7 +5,6 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Servicios
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -31,7 +30,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Swagger
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -45,48 +43,19 @@ using (var scope = app.Services.CreateScope())
     if (!context.Usuarios.Any())
     {
         context.Usuarios.AddRange(
-            new Usuario
-            {
-                Nombre = "Administrador",
-                Correo = "admin@sastreria.com",
-                Password = "123456",
-                Rol = Rol.Administrador
-            },
-            new Usuario
-            {
-                Nombre = "Recepcionista",
-                Correo = "recepcion@sastreria.com",
-                Password = "123456",
-                Rol = Rol.Recepcionista
-            },
-            new Usuario
-            {
-                Nombre = "Sastre",
-                Correo = "sastre@sastreria.com",
-                Password = "123456",
-                Rol = Rol.Sastre
-            },
-            new Usuario
-            {
-                Nombre = "Cliente",
-                Correo = "cliente@sastreria.com",
-                Password = "123456",
-                Rol = Rol.Cliente
-            }
+            new Usuario { Nombre = "Administrador", Correo = "admin@ee.com", Password = "1234", Rol = Rol.Administrador },
+            new Usuario { Nombre = "Recepcionista", Correo = "recepcion@ee.com", Password = "1234", Rol = Rol.Recepcionista },
+            new Usuario { Nombre = "Sastre", Correo = "sastre@ee.com", Password = "1234", Rol = Rol.Sastre },
+            new Usuario { Nombre = "Cliente", Correo = "cliente@ee.com", Password = "1234", Rol = Rol.Cliente }
         );
-
         context.SaveChanges();
     }
 }
 
 app.UseCors("ReactPolicy");
 
-app.UseHttpsRedirection();
-
 app.UseStaticFiles();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

@@ -27,7 +27,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.2rem 3rem;
+  padding: 1rem 2.5rem;
   background: var(--wh);
   border-bottom: 1px solid var(--borde);
   position: sticky;
@@ -44,43 +44,19 @@
 .navLinks a,
 .navRight a {
   font-size: 10px;
-  letter-spacing: 2.5px;
+  letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--ng);
   text-decoration: none;
-
-  opacity: 0.65;
+  opacity: 0.6;
   font-weight: 500;
-
-  position: relative;
-
-  transition: all 0.3s ease;
+  transition: opacity 0.2s;
 }
-
-
 
 .navLinks a:hover,
 .navRight a:hover {
   opacity: 1;
 }
-
-.navLinks a::after,
-.navRight a::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 0%;
-  height: 1px;
-  background: var(--ac);
-  transition: width 0.3s ease;
-}
-
-.navLinks a:hover::after,
-.navRight a:hover::after {
-  width: 100%;
-}
-
 
 .navLogo {
   font-family: 'Playfair Display', serif;
@@ -214,41 +190,30 @@
 .heroSub {
   font-size: 12px;
   color: var(--wh);
-  opacity: 0.8; /* más visible */
-  letter-spacing: 2.5px;
-  margin-bottom: 2.2rem;
+  opacity: 0.6;
+  letter-spacing: 2px;
+  margin-bottom: 1.8rem;
 }
-
 
 .btnHero {
   display: inline-block;
-  background: var(--ac); /* dorado como protagonista */
-  color: var(--wh);
-  padding: 14px 42px;
-
+  background: var(--wh);
+  color: var(--ng);
+  padding: 12px 36px;
   font-size: 10px;
   letter-spacing: 3px;
   text-transform: uppercase;
   font-weight: 600;
   font-family: 'Raleway', sans-serif;
-
   cursor: pointer;
   border: none;
-
-  transition: all 0.3s ease;
+  transition: background 0.2s, color 0.2s;
 }
-
 
 .btnHero:hover {
-  background: transparent;
-  color: var(--ac);
-  outline: 1px solid var(--ac);
+  background: var(--ac);
+  color: var(--wh);
 }
-
-.btnHero {
-  letter-spacing: 4px;
-}
-
 
 /* ════════════════════════════
    BANNER
@@ -363,26 +328,20 @@
 
 .cat {
   cursor: pointer;
-  position: relative;
-
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: transform 0.2s;
 }
 
 .cat:hover {
-  transform: translateY(-6px);
+  transform: translateY(-2px);
 }
 
 .catImg {
-  height: 180px;
+  height: 160px;
   background: var(--be);
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   border-right: 1px solid var(--borde);
-
-  overflow: hidden;
 }
 
 .cat:last-child .catImg {
@@ -392,13 +351,6 @@
 .catEmoji {
   font-size: 2.5rem;
   opacity: 0.5;
-
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.cat:hover .catEmoji {
-  transform: scale(1.2);
-  opacity: 0.7;
 }
 
 .catBody {
@@ -433,35 +385,24 @@
 .btnCat {
   display: block;
   width: 100%;
-
   background: transparent;
   color: var(--ng);
-
-  padding: 8px;
-
+  padding: 7px;
   font-size: 9px;
-  letter-spacing: 3px;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
   font-weight: 600;
   font-family: 'Raleway', sans-serif;
-
   cursor: pointer;
-
-  border: 1px solid var(--borde);
+  border: 1px solid #ccc;
   text-align: center;
-
-  transition: all 0.3s ease;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
-
 
 .btnCat:hover {
   background: var(--ng);
   color: var(--wh);
   border-color: var(--ng);
-}
-
-.btnCat {
-  letter-spacing: 3.5px;
 }
 
 /* ════════════════════════════
@@ -491,7 +432,11 @@
 }
 
 .sobreBody {
-  padding: 3.5rem 4rem;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--cr);
 }
 
 .sobreEy {
@@ -505,52 +450,36 @@
 
 .sobreH {
   font-family: 'Playfair Display', serif;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   color: var(--ng);
   font-weight: 400;
-  line-height: 1.4;
-  letter-spacing: 1px;
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.8rem;
+  line-height: 1.35;
 }
 
-
 .sobreP {
-  font-size: 13px;
-  line-height: 2;
+  font-size: 12px;
+  line-height: 1.85;
   color: var(--ng);
-  opacity: 0.65;
-  max-width: 420px;
-  margin-bottom: 2rem;
+  opacity: 0.55;
+  margin-bottom: 1.5rem;
 }
 
 .btnSobre {
   display: inline-block;
-
   background: var(--ng);
   color: var(--wh);
-
-  padding: 12px 30px;
-
+  padding: 11px 26px;
   font-size: 10px;
-  letter-spacing: 3px;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
   font-weight: 600;
   font-family: 'Raleway', sans-serif;
-
   cursor: pointer;
-
   border: none;
   align-self: flex-start;
-
-  transition: all 0.3s ease;
+  transition: background 0.2s;
 }
-
-.btnSobre:hover {
-  background: transparent;
-  color: var(--ng);
-  outline: 1px solid var(--ng);
-}
-
 
 .btnSobre:hover {
   background: var(--ac);
@@ -619,27 +548,237 @@
   .heroH { font-size: 2rem; }
   .hero { height: 420px; }
 }
+
+/* BOTON NAVBAR */
 .btnNav {
-  background: transparent;
-  color: var(--ng);
-  border: 1px solid var(--ng);
-
-  padding: 8px 22px;
-
-  font-family: 'Raleway', sans-serif;
+  background: #1a1a1a;
+  color: #f7f2ea;
+  border: none;
+  padding: 9px 20px;
   font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 2.5px;
+  letter-spacing: 2px;
   text-transform: uppercase;
-
+  font-weight: 600;
+  font-family: 'Raleway', sans-serif;
   cursor: pointer;
+  transition: background 0.2s;
+}
+.btnNav:hover { background: #b89b72; }
 
-  transition: all 0.3s ease;
+/* SERVICIOS */
+.servicios {
+  padding: 3rem 2.5rem;
+  background: #f7f2ea;
+  border-top: 1px solid #e8e0d4;
+}
+.serviciosEy {
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #b89b72;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.serviciosH {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: #1a1a1a;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+.serviciosGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 1px solid #e8e0d4;
+}
+.servicioCard {
+  padding: 2rem;
+  border-right: 1px solid #e8e0d4;
+  position: relative;
+}
+.servicioCard:last-child { border-right: none; }
+.servicioNum {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  color: #e8e0d4;
+  font-weight: 300;
+  line-height: 1;
+  margin-bottom: 1rem;
+  display: block;
+}
+.servicioTitulo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: #1a1a1a;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+}
+.servicioDesc {
+  font-size: 11px;
+  line-height: 1.8;
+  color: #1a1a1a;
+  opacity: 0.55;
+  margin-bottom: 1rem;
+}
+.servicioBtn {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #b89b72;
+  font-weight: 700;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #b89b72;
+  cursor: pointer;
+  font-family: 'Raleway', sans-serif;
+  padding-bottom: 2px;
 }
 
-.btnNav:hover {
-  background: var(--ng);
-  color: var(--wh);
-  border-color: var(--ng);
+/* PROCESO */
+.proceso {
+  background: #1a1a1a;
+  padding: 2.5rem;
+}
+.procesoEy {
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #b89b72;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.procesoEy::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 1px;
+  background: #b89b72;
+}
+.procesoSteps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  position: relative;
+}
+.procesoSteps::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: #b89b72;
+  opacity: 0.3;
+}
+.procesoStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 1rem;
+}
+.procesoCircle {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #b89b72;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  color: #b89b72;
+  margin-bottom: 1rem;
+  background: #1a1a1a;
+  position: relative;
+  z-index: 1;
+}
+.procesoNombre {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #f7f2ea;
+  opacity: 0.7;
+  font-weight: 500;
 }
 
+/* CONTACTO */
+.contacto {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid #e8e0d4;
+  background: #f7f2ea;
+}
+.contactoLeft {
+  padding: 3rem 2.5rem;
+  border-right: 1px solid #e8e0d4;
+}
+.contactoRight {
+  padding: 3rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.contactoEy {
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #b89b72;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+}
+.contactoH {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: #1a1a1a;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+}
+.contactoP {
+  font-size: 12px;
+  line-height: 1.8;
+  color: #1a1a1a;
+  opacity: 0.55;
+  margin-bottom: 1.5rem;
+}
+.contactoLinks {
+  display: flex;
+  gap: 1rem;
+}
+.contactoBtn {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #1a1a1a;
+  border: 1px solid #1a1a1a;
+  padding: 8px 18px;
+  text-decoration: none;
+  font-family: 'Raleway', sans-serif;
+  transition: background 0.2s, color 0.2s;
+}
+.contactoBtn:hover { background: #1a1a1a; color: #f7f2ea; }
+.btnContactoCTA {
+  background: #1a1a1a;
+  color: #f7f2ea;
+  border: none;
+  padding: 14px 28px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-family: 'Raleway', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btnContactoCTA:hover { background: #b89b72; }
+
+@media (max-width: 768px) {
+  .serviciosGrid { grid-template-columns: 1fr; }
+  .procesoSteps { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .contacto { grid-template-columns: 1fr; }
+  .contactoLeft { border-right: none; border-bottom: 1px solid #e8e0d4; }
+}

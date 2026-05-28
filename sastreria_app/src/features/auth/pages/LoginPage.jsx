@@ -28,18 +28,38 @@ export const LoginPage = () => {
     nombre: "", email: "", password: "", confirmar: "",
   });
 
-  const handleLoginSubmit = (e) => {
-    e.preventDefault();
-    const usuario = USUARIOS_SIMULADOS.find(
-      (u) => u.email === loginData.email && u.password === loginData.password
-    );
-    if (usuario) {
-      login(usuario);
-      navigate(RUTAS_POR_ROL[usuario.rol]);
-    } else {
+  const handleLoginSubmit = async (e) => {
+  e.preventDefault();
+  setError("");
+
+  try {
+    const res = await fetch("http://localhost:5018/api/Auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: loginData.email, password: loginData.password }),
+    });
+
+    if (!res.ok) {
       setError("Correo o contraseña incorrectos");
+      return;
     }
-  };
+
+    const data = await res.json();
+
+    const usuarioFormateado = {
+      id: data.id,
+      nombre: data.nombre,
+      email: data.correo,
+      rol: data.rol.nombre.toLowerCase(),
+    };
+
+    login(usuarioFormateado);
+    navigate(RUTAS_POR_ROL[usuarioFormateado.rol] || "/portal");
+
+  } catch (err) {
+    setError("No se pudo conectar con el servidor");
+  }
+};
 
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
