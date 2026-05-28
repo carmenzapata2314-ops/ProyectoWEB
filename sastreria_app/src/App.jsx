@@ -1,54 +1,54 @@
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  Outlet,
-} from "react-router-dom";
-import { LoginPage } from "./features/auth/pages/LoginPage";
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { AuthProvider, useAuth } from "./context/AuthContext";
+
+import { LoginPage }        from "./features/auth/pages/LoginPage";
+import { PortalCliente }    from "./features/portal/PortalCliente";
+import { PrivateLayout }    from "./core/layouts/PrivateLayout";
+
 import { DashboardCliente } from "./features/catalogo/pages/DashboardCliente";
-import { DashboardRecepcion } from "./features/recepcion/pages/DashboardRecepcion";
-import { PanelSastre } from "./features/sastreria/pages/PanelSastre";
-import { DashboardAdmin } from "./features/finanzas/pages/DashboardAdmin";
-import { MainLayout } from "./core/layouts/MainLayout";
-import { PortalCliente } from "./features/portal/pages/PortalCliente";
 import { DashboardMedidas } from "./features/medidas/pages/DashboardMedidas";
+import { DashboardRecepcion } from "./features/recepcion/pages/DashboardRecepcion";
+import { DashboardSastre }  from "./features/sastreria/pages/DashboardSastre";
+import { DashboardAdmin }   from "./features/finanzas/pages/DashboardAdmin";
 
-const PrivateRoute = () => {
-  const isLogged = localStorage.getItem("usuario") !== null;
-
-  return isLogged ? <Outlet /> : <Navigate to="/portal" />;
+const PrivateRoute = ({ roles }) => {
+  const { usuario } = useAuth();
+  if (!usuario) return <Navigate to="/login" />;
+  if (roles && !roles.includes(usuario.rol)) return <Navigate to="/login" />;
+  return <Outlet />;
 };
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* RUTA PÚBLICA */}
-        <Route path="/portal" element={<PortalCliente />} />
-        <Route path="/login" element={<LoginPage />} />
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* PÚBLICO */}
+          <Route path="/portal" element={<PortalCliente />} />
+          <Route path="/login"  element={<LoginPage />} />
 
-        {/* RUTAS PROTEGIDAS */}
-        <Route element={<PrivateRoute />}>
-          <Route element={<MainLayout />}>
-            <Route path="/cliente" element={<DashboardCliente />} />
-            <Route path="/recepcion" element={<DashboardRecepcion />} />
-            <Route path="/sastreria" element={<PanelSastre />} />
-            <Route path="/finanzas" element={<DashboardAdmin />} />
-            <Route path="/medidas" element={<DashboardMedidas />} />
+          {/* PRIVADO con navbar */}
+          <Route element={<PrivateLayout />}>
+            <Route element={<PrivateRoute roles={["cliente"]} />}>
+              <Route path="/cliente"  element={<DashboardCliente />} />
+              <Route path="/medidas"  element={<DashboardMedidas />} />
+            </Route>
+            <Route element={<PrivateRoute roles={["recepcion"]} />}>
+              <Route path="/recepcion" element={<DashboardRecepcion />} />
+            </Route>
+            <Route element={<PrivateRoute roles={["sastre"]} />}>
+              <Route path="/sastre" element={<DashboardSastre />} />
+            </Route>
+            <Route element={<PrivateRoute roles={["admin"]} />}>
+              <Route path="/admin" element={<DashboardAdmin />} />
+            </Route>
           </Route>
-        </Route>
 
-        {/* RUTAS DE FALLBACK */}
-        <Route path="/" element={<Navigate to="/portal" />} />
-        <Route
-          path="*"
-          element={
-            <h1 className="text-center mt-5">404 - Pagina no encontrada</h1>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
+          {/* DEFAULT */}
+          <Route path="/" element={<Navigate to="/portal" />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

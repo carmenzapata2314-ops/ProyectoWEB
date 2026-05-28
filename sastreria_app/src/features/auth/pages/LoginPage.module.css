@@ -1,182 +1,415 @@
-/* src/features/auth/pages/LoginPage.module.css */
 
-.page {
-  display: flex;
-  height: 100vh;
-  font-family: 'Manrope', sans-serif;
-  overflow: hidden;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Raleway:wght@300;400;500;600&display=swap');
+
+/* ── Variables ── */
+:root {
+  --cream: #f7f2ea;
+  --black: #1a1a1a;
+  --gold: #b89b72;
+  --beige: #d9cfc0;
+  --white: #ffffff;
+  --border: #e8e0d4;
+  --text-muted: #8a7f72;
 }
 
-/* ── Panel izquierdo  ── */
-.brandPanel {
-  width: 42%;
-  background: #181f21;
+/* ── Layout principal ── */
+.wrapper {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 3rem;
+  min-height: 100vh;
+  font-family: 'Raleway', sans-serif;
+  background: var(--cream);
+}
+
+/* ══════════════════════════════
+   PANEL IZQUIERDO — OSCURO
+══════════════════════════════ */
+.panel {
   position: relative;
+  width: 45%;
+  background: var(--black);
   overflow: hidden;
   flex-shrink: 0;
 }
 
-.cornerTL {
-  position: absolute; top: 2rem; left: 2rem;
-  width: 24px; height: 24px;
-  border-top: 1px solid #c9a84c; border-left: 1px solid #c9a84c;
-  opacity: 0.7;
+.panelInner {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 3.5rem;
 }
 
-.cornerTR {
-  position: absolute; top: 2rem; right: 2rem;
-  width: 24px; height: 24px;
-  border-top: 1px solid #c9a84c; border-right: 1px solid #c9a84c;
-  opacity: 0.7;
+/* Patrón diagonal SVG como pseudo-elemento */
+.diagonalPattern {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 28px,
+    rgba(184, 155, 114, 0.07) 28px,
+    rgba(184, 155, 114, 0.07) 29px
+  );
+  pointer-events: none;
 }
 
-.cornerBL {
-  position: absolute; bottom: 2rem; left: 2rem;
-  width: 24px; height: 24px;
-  border-bottom: 1px solid #c9a84c; border-left: 1px solid #c9a84c;
-  opacity: 0.7;
+/* Marca */
+.brandBlock {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.2rem;
 }
 
-.cornerBR {
-  position: absolute; bottom: 2rem; right: 2rem;
-  width: 24px; height: 24px;
-  border-bottom: 1px solid #c9a84c; border-right: 1px solid #c9a84c;
-  opacity: 0.7;
-}
-
-.scissorIcon {
-  font-size: 2.2rem;
-  color: #c9a84c;
-  opacity: 0.55;
-  margin-bottom: 2rem;
-  letter-spacing: -2px;
-}
-
-.brandTitle {
-  font-family: 'Noto Serif', serif;
-  color: #fbfaee;
-  font-size: 2.6rem;
-  font-weight: 700;
-  text-align: center;
-  margin: 0 0 1.5rem;
-  line-height: 1.15;
-  letter-spacing: -0.5px;
-}
-
-.goldLine {
+.brandLine {
+  display: block;
   width: 40px;
-  height: 1.5px;
-  background: #c9a84c;
-  margin: 0 auto 1.5rem;
+  height: 1px;
+  background: var(--gold);
+}
+
+.brandEyebrow {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+  font-size: 0.68rem;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.brandName {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 3.2vw, 3rem);
+  line-height: 1.15;
+  color: var(--white);
+  margin: 0;
+}
+
+.brandName em {
+  font-style: italic;
+  color: var(--gold);
 }
 
 .brandTagline {
-  color: #fbfaee;
-  opacity: 0.4;
-  text-transform: uppercase;
-  letter-spacing: 4px;
-  font-size: 9px;
-  text-align: center;
-  font-weight: 700;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  font-size: 0.85rem;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0;
 }
 
-/* ── Panel derecho  ── */
-.formPanel {
+/* Footer del panel */
+.panelFooter {
+  padding-top: 2rem;
+}
+
+.panelFooterText {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.25);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* ══════════════════════════════
+   LADO DERECHO — CREMA + FORM
+══════════════════════════════ */
+.formSide {
   flex: 1;
-  background: #fbfaee;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3rem;
+  background: var(--cream);
+  padding: 3rem 2rem;
 }
 
-.formInner {
+.formContainer {
   width: 100%;
-  max-width: 360px;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
-.portalLabel {
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  font-size: 9px;
-  font-weight: 700;
-  color: #aaa;
+/* Logo solo en móvil */
+.mobileLogo {
+  display: none;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.mobileLogoText {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: var(--black);
+  margin: 0;
+  text-align: center;
+}
+
+/* ── Tabs ── */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
   margin-bottom: 2.5rem;
-  display: block;
 }
 
-.fieldLabel {
-  display: block;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  font-size: 9px;
-  font-weight: 700;
-  color: #999;
-  margin-bottom: 6px;
-}
-
-.input, .select {
-  display: block;
-  width: 100%;
+.tab {
+  flex: 1;
+  background: none;
   border: none;
-  border-bottom: 1.5px solid #d4d0c4;
+  padding: 0.85rem 0.5rem;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  cursor: pointer;
+  position: relative;
+  transition: color 0.25s ease;
+}
+
+.tab::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--black);
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+}
+
+.tab:hover {
+  color: var(--black);
+}
+
+.tabActive {
+  color: var(--black);
+}
+
+.tabActive::after {
+  transform: scaleX(1);
+}
+
+/* ── Form ── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.formHeader {
+  margin-bottom: 0.25rem;
+}
+
+.formTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: var(--black);
+  margin: 0 0 0.4rem;
+  line-height: 1.2;
+}
+
+.formSubtitle {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+/* ── Field Group ── */
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Input solo línea inferior */
+.input {
   background: transparent;
-  padding: 8px 0;
-  font-size: 14px;
-  color: #181f21;
-  outline: none;
-  font-family: 'Manrope', sans-serif;
-  box-sizing: border-box;
-  transition: border-color 0.2s;
-}
-
-.input:focus, .select:focus {
-  border-bottom-color: #181f21;
-}
-
-.select {
-  cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-}
-
-.fieldWrap { margin-bottom: 1.5rem; }
-.fieldWrapLast { margin-bottom: 3rem; }
-
-.submitBtn {
-  display: block;
-  width: 100%;
-  background: #181f21;
-  color: #fbfaee;
   border: none;
-  padding: 14px;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  font-size: 11px;
+  border-bottom: 1px solid var(--beige);
+  border-radius: 0;
+  padding: 0.65rem 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 400;
+  color: var(--black);
+  outline: none;
+  transition: border-color 0.2s ease;
+  width: 100%;
+}
+
+.input::placeholder {
+  color: var(--beige);
+}
+
+.input:focus {
+  border-bottom-color: var(--black);
+}
+
+/* ── Forgot link ── */
+.forgotRow {
+  margin-top: -0.75rem;
+  text-align: right;
+}
+
+.forgotLink {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  transition: color 0.2s ease;
+}
+
+.forgotLink:hover {
+  color: var(--black);
+}
+
+/* ── Botón primario ── */
+.btnPrimary {
+  background: var(--black);
+  color: var(--white);
+  border: none;
+  border-radius: 0;
+  padding: 1rem 2rem;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.7rem;
   font-weight: 700;
-  font-family: 'Manrope', sans-serif;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
   cursor: pointer;
-  border-radius: 4px;
-  transition: opacity 0.2s;
+  width: 100%;
+  margin-top: 0.5rem;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
-.submitBtn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+.btnPrimary:hover {
+  background: var(--gold);
+  color: var(--white);
 }
 
-.errorBox {
-  background: #fff5f5;
-  border: 1px solid #f5c6c6;
-  color: #b03030;
-  padding: 10px 14px;
-  border-radius: 4px;
-  font-size: 12px;
-  margin-bottom: 1.5rem;
-  font-family: 'Manrope', sans-serif;
+.btnPrimary:active {
+  background: #9a8260;
+}
+
+/* ── Terms note ── */
+.termsNote {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin: 0;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.termsLink {
+  color: var(--black);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.termsLink:hover {
+  color: var(--gold);
+}
+
+/* ── Footer del form ── */
+.formSideFooter {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.formSideFooter p {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+@media (max-width: 768px) {
+  .wrapper {
+    flex-direction: column;
+  }
+
+  .panel {
+    display: none;
+  }
+
+  .formSide {
+    padding: 2rem 1.5rem;
+    align-items: flex-start;
+    padding-top: 3rem;
+  }
+
+  .mobileLogo {
+    display: block;
+  }
+
+  .formContainer {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1100px) {
+  .panel {
+    width: 38%;
+  }
+
+  .panelInner {
+    padding: 2.5rem;
+  }
+
+  .brandName {
+    font-size: 2rem;
+  }
+}
+
+.errorMsg {
+  font-size: 0.78rem;
+  color: #c0392b;
+  background: #fdf0ee;
+  border-left: 2px solid #c0392b;
+  padding: 0.5rem 0.75rem;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.hintText {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.6;
+  margin: 0;
+  opacity: 0.7;
 }

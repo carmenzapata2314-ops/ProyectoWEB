@@ -1,0 +1,9 @@
+.shell {
+  min-height: 100vh;
+  background: #f7f2ea;
+  font-family: 'Raleway', sans-serif;
+}
+
+.content {
+  width: 100%;
+}

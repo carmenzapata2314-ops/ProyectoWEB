@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Raleway:wght@400;500;600&display=swap');
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 2.5rem;
+  background: #ffffff;
+  border-bottom: 1px solid #e8e0d4;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: #1a1a1a;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.rolLabel {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #b89b72;
+  font-weight: 600;
+}
+
+.avatarWrap {
+  position: relative;
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #1a1a1a;
+  color: #f7f2ea;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.avatar:hover { background: #b89b72; }
+
+.menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #e8e0d4;
+  min-width: 200px;
+  z-index: 300;
+}
+
+.menuHeader {
+  padding: 0.9rem 1.1rem 0.7rem;
+}
+
+.menuNombre {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 2px;
+}
+
+.menuRol {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #b89b72;
+  margin: 0;
+}
+
+.menuDivider {
+  height: 1px;
+  background: #e8e0d4;
+  margin: 0;
+}
+
+.menuItem {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0.7rem 1.1rem;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #1a1a1a;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: background 0.15s;
+}
+
+.menuItem:hover { background: #f7f2ea; }
+
+.menuItemDanger { color: #c0392b; }
+.menuItemDanger:hover { background: #fdf0ee; }
